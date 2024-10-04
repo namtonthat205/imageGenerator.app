@@ -18,14 +18,12 @@ const LikeButton = ({ _id, initialLikes,user }) => {
       try {
         const response = await fetch(`https://imagegenerator-app.onrender.com/api/v1/post/${_id}`);  // Fetch the post data from backend
         const postData = await response.json();
-        console.log('post data:', postData);
 
         const currentUser = await getCurrentUser();
         const userId = currentUser.$id;
 
 
         if (postData.data.likedBy && postData.data.likedBy.includes(userId)) {
-          console.log("Already liked");
           setLiked(true);
         }
         //console.log("postData Likes:",postData.data.likes);

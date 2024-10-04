@@ -98,7 +98,6 @@ export async function likePost(postId, likesArray)
         const userId = currentUser.$id;  // Get the user's Appwrite userId
     
         const post = postId; // Use Mongoose to get the post
-        //console.log(post)
         if (!post) {
           throw new Error('Post not found');
         }
@@ -107,38 +106,19 @@ export async function likePost(postId, likesArray)
         const likedByArray = post.likedBy || [];
 
         if (likedByArray.includes(userId)) {
-            console.log('User has already liked the post.');
             return post; // Optionally, handle if user has already liked it.
         }
 
         // Step 3: Add userId to the likedBy array
         likedByArray.push(userId);
-        console.log("successfully pushed userid")
-        console.log(userId);
+
         //)
         
     } catch (error) {
         console.log(error);
     }
 }
-        /*const response = await fetch(`http://localhost:8080/api/v1/post/${postId}/like`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ likesArray }),  // Send updated likes array to backend
-          });
-          
-          const data = await response.json();
-          if (!response.ok) {
-            throw new Error(data.message || 'Error liking the post');
-          }
-          
-          return data;
-        } catch (error) {
-          console.error('Error liking the post:', error);
-        }
-}*/
+       
 
 export async function signOutAccount() {
     try {
