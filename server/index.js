@@ -12,7 +12,7 @@ const client = new Client();
 
 client
     .setEndpoint('https://cloud.appwrite.io/v1')
-    .setProject('66f9c2e100074c695b6a');
+    .setProject('66f9dc300006ec2c7b14');
 dotenv.config();
 
 const app = express();
