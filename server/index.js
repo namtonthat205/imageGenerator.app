@@ -6,8 +6,13 @@ import connectDB from './mongodb/connect.js';
 import postRoutes from './routes/postRoutes.js';
 import dalleRoutes from './routes/dalleRoutes.js';
 
+import { Client } from 'appwrite';
 
+const client = new Client();
 
+client
+    .setEndpoint('https://cloud.appwrite.io/v1')
+    .setProject('66f9c2e100074c695b6a');
 dotenv.config();
 
 const app = express();

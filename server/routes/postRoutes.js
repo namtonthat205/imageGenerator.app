@@ -72,8 +72,7 @@ router.route('/').post(async (req, res) => {
     const { id } = req.params;  // Get the post ID from the URL
     const { userId, liked } = req.body;  // Get the liked status from the request body
     try {
-      // Find the post by ID
-      //console.log("userId:", userId);
+    
 
       const post = await Post.findById(id);
       if (!post) {
@@ -91,14 +90,12 @@ router.route('/').post(async (req, res) => {
       }
       // Increment or decrement the likes count based on 'liked' value
       post.likes = liked && !post.likedBy.includes(userId)? post.likes + 1 : Math.max(0, post.likes - 1);
-      console.log(`Updated likes count: ${post.likes}`);
 
      
   
       // Add the userId to the likedBy array
       post.likedBy.push(userId);
       await post.save();  // Save the updated post
-      console.log('Post saved successfully');
 
       // Respond with the updated post
       res.status(200).json({ success: true, data: post });

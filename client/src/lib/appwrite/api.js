@@ -4,6 +4,15 @@ import { Query } from 'appwrite';
 import { useQueryClient } from '@tanstack/react-query';
 import {useState} from "react";
 
+import { Client } from 'appwrite';
+
+const client = new Client();
+
+client
+  .setEndpoint('https://cloud.appwrite.io/v1')
+  .setProject('66f9c2e100074c695b6a');
+
+export default client;
 
 export async function createUserAccount(user)
 {
