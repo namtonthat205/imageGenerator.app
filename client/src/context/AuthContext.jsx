@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { createContext, useContext, useEffect, useState } from "react";
-
 import { getCurrentUser } from "@/lib/appwrite/api";
 
 export const INITIAL_USER = {
@@ -27,10 +26,10 @@ export function AuthProvider({ children }) {
   const navigate = useNavigate();
   const [user, setUser] = useState(INITIAL_USER);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);  // Start with loading state
 
   const checkAuthUser = async () => {
-    setIsLoading(true);
+    setIsLoading(true); // Begin loading when checking for user authentication
     try {
       const currentAccount = await getCurrentUser();
       if (currentAccount) {
@@ -43,30 +42,29 @@ export function AuthProvider({ children }) {
           bio: currentAccount.bio,
         });
         setIsAuthenticated(true);
-
         return true;
       }
-
+      setIsAuthenticated(false); // Set false if no current user found
       return false;
     } catch (error) {
       console.error(error);
+      setIsAuthenticated(false);  // Set false on error
       return false;
     } finally {
-      setIsLoading(false);
+      setIsLoading(false);  // Stop loading once check is complete
     }
   };
 
   useEffect(() => {
-    // cookieFallback === null ||
-    const cookieFallback = localStorage.getItem("cookieFallback");
-    if (
-      cookieFallback === "[]" 
-    ) {
-      navigate("/login");
-    }
+    const handleAuthCheck = async () => {
+      const isUserAuthenticated = await checkAuthUser();
+      if (!isUserAuthenticated) {
+        navigate("/login");  // Redirect to login if not authenticated
+      }
+    };
 
-    checkAuthUser();
-  }, []);
+    handleAuthCheck();
+  }, [navigate]);  // Ensure it only runs on initial render
 
   const value = {
     user,
@@ -77,8 +75,11 @@ export function AuthProvider({ children }) {
     checkAuthUser,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {isLoading ? <p>Loading...</p> : children} {/* Show loading until auth check is done */}
+    </AuthContext.Provider>
+  );
 }
 
 export const useUserContext = () => useContext(AuthContext);
-
