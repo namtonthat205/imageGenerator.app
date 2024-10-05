@@ -84,7 +84,7 @@ router.route('/').post(async (req, res) => {
         post.likedBy = post.likedBy.filter(id => id !== userId);
         await post.save();
       }
-
+        ///
       if (post.likedBy.includes(userId)) {
         return res.status(400).json({ error: 'User has already liked this post' });
       }
