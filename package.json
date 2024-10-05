@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "appwrite": "^16.0.2",
-    "aws-amplify": "^6.6.4"
+    "aws-amplify": "^6.6.4",
+    "cors": "^2.8.5"
   }
 }

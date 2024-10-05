@@ -6,9 +6,20 @@ import connectDB from './mongodb/connect.js';
 import postRoutes from './routes/postRoutes.js';
 import dalleRoutes from './routes/dalleRoutes.js';
 
+// Add this line to configure CORS
+const allowedOrigins = ['https://image-generator-app-mu.vercel.app'];
+
+const corsOptions = {
+    origin: allowedOrigins,
+    credentials: true, // This allows cookies and tokens to be sent across origins
+};
+
+// Use CORS middleware before defining any routes
 
 
 const app = express();
+
+app.use(cors(corsOptions));
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 
