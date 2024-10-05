@@ -16,7 +16,7 @@ const LikeButton = ({ _id, initialLikes,user }) => {
     // Fetch post data on component mount and check if the current user has liked the post
     const fetchPostData = async () => {
       try {
-        const response = await fetch(`https://aiimagegenerator-app.onrender.com/api/v1/post/${_id}`);  // Fetch the post data from backend
+        const response = await fetch(`https://imagegenerator-app.onrender.com/api/v1/post/${_id}`);  // Fetch the post data from backend
         const postData = await response.json();
 
         const currentUser = await getCurrentUser();
