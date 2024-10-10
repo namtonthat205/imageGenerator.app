@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { createContext, useContext, useEffect, useState } from "react";
 import { getCurrentUser } from "@/lib/appwrite/api";
 
@@ -24,6 +24,7 @@ const AuthContext = createContext(INITIAL_STATE);
 
 export function AuthProvider({ children }) {
   const navigate = useNavigate();
+  const location = useLocation(); // Added useLocation here
   const [user, setUser] = useState(INITIAL_USER);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);  // Start with loading state
@@ -65,8 +66,7 @@ export function AuthProvider({ children }) {
     };
 
     handleAuthCheck();
-  }, [location, checkAuthUser, navigate]);
-}; // Ensure it only runs on initial render
+  }, [location, checkAuthUser, navigate]); // Added location to dependencies
 
   const value = {
     user,
@@ -82,5 +82,7 @@ export function AuthProvider({ children }) {
       {isLoading ? <p>Loading...</p> : children} {/* Show loading until auth check is done */}
     </AuthContext.Provider>
   );
+}
 
 export const useUserContext = () => useContext(AuthContext);
+
