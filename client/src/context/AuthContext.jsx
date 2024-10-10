@@ -58,13 +58,15 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const handleAuthCheck = async () => {
       const isUserAuthenticated = await checkAuthUser();
-      if (!isUserAuthenticated) {
-        navigate("/login");  // Redirect to login if not authenticated
+      // Only redirect to login if the user is not authenticated and they are not on the signup page
+      if (!isUserAuthenticated && location.pathname !== "/signup") {
+        navigate("/login");  // Redirect to login if not authenticated and not on signup page
       }
     };
 
     handleAuthCheck();
-  }, [navigate]);  // Ensure it only runs on initial render
+  }, [location, checkAuthUser, navigate]);
+}; // Ensure it only runs on initial render
 
   const value = {
     user,
@@ -80,6 +82,5 @@ export function AuthProvider({ children }) {
       {isLoading ? <p>Loading...</p> : children} {/* Show loading until auth check is done */}
     </AuthContext.Provider>
   );
-}
 
 export const useUserContext = () => useContext(AuthContext);
