@@ -7,11 +7,13 @@ import postRoutes from './routes/postRoutes.js';
 import dalleRoutes from './routes/dalleRoutes.js';
 
 // Add this line to configure CORS
-const allowedOrigins = ['https://image-generator-app-mu.vercel.app'];
+const allowedOrigins = ['https://image-generator-app-mu.vercel.app', 'http://localhost:5173'];
 
 const corsOptions = {
     origin: allowedOrigins,
     credentials: true, // This allows cookies and tokens to be sent across origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 // Use CORS middleware before defining any routes
@@ -20,7 +22,7 @@ const corsOptions = {
 const app = express();
 
 app.use(cors(corsOptions));
-app.use(cors());
+app.options('*', cors(corsOptions)); // Handle preflight requests
 app.use(express.json({ limit: '50mb' }));
 
 app.use('/api/v1/post', postRoutes);
