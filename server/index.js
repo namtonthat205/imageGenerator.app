@@ -25,6 +25,14 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Handle preflight requests
 app.use(express.json({ limit: '50mb' }));
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", req.headers.origin); // Allow the origin making the request
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
 app.use('/api/v1/post', postRoutes);
 app.use('/api/v1/dalle', dalleRoutes);
 
